@@ -1,0 +1,39 @@
+COSAS QUE ESTAN VALIDADAS FILTRADO DE BUSQUEDAS:
+    EL STATUS POR DEFECTO ES: procesando
+    si cambio su status a LISTO --> se guardara en la base de datos como listo (minusculas)
+    esto facilita el filtrado de busqueda por status , ya que son 4 estados y estas no cambian si son en may , min o var
+    la busqueda le falto el filtro de fecha porque el formato que guardo en la BD es: '2020-10-10 12:22:23' , entonces 
+    si paso por parametro la fecha el usuario debe colocar con exactitud dicha fecha , no solo se podra con (2020-10-10) , pero lo demas esta bien la busqueda , se le pasa el estado / cedula
+Lazaro Marin 2870547 - Jeremy , esto es para que lo leas tu xd
+
+
+REGLAS PARA USAR LA API:
+
+1-  (add_customers : http://127.0.0.1:5000/customers) [POST]
+    CREAR EL USUARIO , esta validado para que no se repita el gmail , cedula y whatsapp de dicho user , su nombre si porque varios pueden llamarse JOSE , LUIS , JAIME , CRISTIANO
+2- (get_customers :http://127.0.0.1:5000/customers ) [GET]
+    aqui simplemente listaremos los clientes que queremos listar , OJO su cedula no podra repetirse porque es la PK de la tabla que tendra relacion con la TABLA orders
+3- (update_customers : http://127.0.0.1:5000/customers/<cedula>) [PUT]
+    aqui en el Postman u otro controlador de api , se le debe pasar un Json con el formato {    "name": "Lazaro Marin",
+                                                                                                "whatsapp": "+584141843003",
+                                                                                                "email": "marinlazaro04@gmail.com"} solo cambiara lo que desee editar del cliente , cedula no es permitido editar
+
+4- (add_orders :http://127.0.0.1:5000/orders ) [POST]
+    aqui se ingresara un json con el siguiennte formato: 
+    {
+    "quantity" : 5,
+    "payment_method": "Pago_Movil",
+    "remarks": "CON mucho queso",
+    "city": "Guayacancito",
+    "municipality": "Macanao",
+    "cedula_cliente": "27870"
+    }  los otros datos a ingresar en la orden se colocaran a traves de condicionales dependiendo de estos mandados
+
+5- (get_orders: :http://127.0.0.1:5000/orders ) [GET]
+    Simplemente mostrara todos los datos ingresados en la tabla orders
+
+6- (update_status : http://127.0.0.1:5000/orders/<id>/status) [PATCH]
+    aqui se modificara solamente es estatus del pedido , se le instanciara una clase del objeto (orders) y solo se le modificara el status mediante un Json cargado del manejador de api
+7- (filtro_busqueda: http://127.0.0.1:5000/orders/<status>/<cedula_cliente>) [GET]
+    aqui se le pasara por parametros (URL) el status que desea buscar + la cedula el cliente , eso imprimira todo si hay una busqueda con dichos datos , si la busqueda
+    no coincide se IMPRIMIRA TODOS LOS DATOS DE LA TABLA orders
